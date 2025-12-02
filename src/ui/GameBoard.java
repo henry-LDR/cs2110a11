@@ -1,6 +1,8 @@
 package ui;
 
+import graph.MazeGraph.MazeVertex;
 import java.beans.PropertyChangeListener;
+import model.GameModel.Item;
 import util.MazeGenerator;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -131,13 +133,7 @@ public class GameBoard extends JPanel {
             }
         }
 
-        // TODO 1: Add code to visualize the items (dots and pellets) on the board. Each item
-        //  should be drawn centered on the tile corresponding to the vertex that contains it.
-        //  Look through the `GameModel` class to see how to access this information. Both pellets
-        //  and dots are drawn as white circles. Dots have a diameter of 0.3 units and pellets have
-        //  a diameter of 0.7 units, both in `g2`'s coordinates. You can use an `Ellipse2D.Double`
-        //  to model these shapes. You could add this code all here but it will likely be more
-        //  maintainable to extract it into a separate helper method.
+        paintItems(g2);
 
         // actors
         for (Actor actor : model.actors()) {
@@ -158,10 +154,29 @@ public class GameBoard extends JPanel {
         }
     }
 
-    public void paintDots (Graphics2D g2){
+    /**
+     * Draws all dots and pellets into the board based on the coordinates in g2. Each item is rendered
+     * as a filled white circle centered within its corresponding tile. Dots have a diameter of
+     *  0.3 units and pellets have a diameter of 0.7 units.
+     */
+    private void paintItems (Graphics2D g2){
         g2.setColor(Color.WHITE);
+        for(MazeVertex v : model.graph().vertices()){
+            GameModel.Item item = model.itemAt(v);
+            if(item == Item.NONE){
+                continue;
+            }
 
-        for
+            double cx = v.loc().i() + 0.5;
+            double cy = v.loc().j() + 0.5;
+            double diameter = (item == Item.DOT) ? 0.3 : 0.7;
+
+            double r = diameter / 2.0;
+            Ellipse2D.Double circle =
+                    new Ellipse2D.Double(cx - r, cy - r, diameter, diameter);
+
+            g2.fill(circle);
+        }
 
 
 
