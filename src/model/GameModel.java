@@ -92,9 +92,10 @@ public class GameModel {
      */
     private int numLives;
 
-    // TODO 2b: Add a field to keep track of the Direction associated with the most recent player
-    //  input.  Also, add a `playerCommand()` accessor and an `updatePlayerCommand()` mutator method
-    //  for this field.
+    /**
+     * The current direction that PacMann is traveling, as entered by the player.
+     */
+    private Direction direction;
 
     /**
      * Helper object for managing property change notifications.
@@ -188,6 +189,13 @@ public class GameModel {
     /* ****************************************************************
      * Accessor methods                                               *
      **************************************************************** */
+
+    /**
+     * Returns the direction that PacMann is currently traveling.
+     */
+    public Direction playerCommand(){
+        return direction;
+    }
 
     /**
      * Return the GameMap that was used to construct this model
@@ -299,6 +307,13 @@ public class GameModel {
     /* ****************************************************************
      * Methods that update the game state                             *
      **************************************************************** */
+
+    /**
+     * Sets "direction" to "d".
+     */
+    public void updatePlayerCommand(Direction d){
+        direction = d;
+    }
 
     /**
      * Increment the current score by `points` points and notify "score" observers.
