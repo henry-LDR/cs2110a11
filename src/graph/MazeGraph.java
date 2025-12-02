@@ -1,7 +1,13 @@
 package graph;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 import util.GameMap;
+import util.MazeGenerator;
+import util.MazeGenerator.TileType;
 
 /**
  * A graph representing a game's maze, connecting the "path" tiles of a tile grid.
@@ -157,12 +163,76 @@ public class MazeGraph {
         height = map.types()[0].length;
         vertices = new HashMap<>();
 
-        // TODO 1: Complete the implementation of this method. Upon return, `vertices` should
-        //  contain an entry for each location in `map` with type `PATH`.  Every pair of
-        //  orthogonally-adjacent vertices should be connected by a pair of edges (one in each
-        //  direction). The weights of these edges should be computed from the elevation difference
-        //  between the map tiles they connect using the `edgeWeight()` function. Your implementation
-        //  must have a runtime that scales linearly with the number of `PATH` tiles.
+        //General idea is to start at [2][2] and use a BFS to explore all the tiles starting from one tile,
+        //since we know all tiles are connected
+
+        Set<IPair> discovered = new HashSet<>();
+        Queue<IPair> frontier = new LinkedList<>();
+
+        IPair start = new IPair(2,2);
+        discovered.add(start);
+        frontier.add(start);
+
+        vertices.put(start, new MazeVertex(start));
+
+        while(!frontier.isEmpty()){
+            IPair current = frontier.remove();
+            MazeVertex currentV = vertices.get(current);
+
+            int i = current.i();
+            int j = current.j();
+
+            for(Direction dir : Direction.values()){
+                int newI = switch (dir) {
+                    case Direction.LEFT -> i - 1;
+                    case Direction.RIGHT -> i + 1;
+                    case Direction.UP, Direction.DOWN -> i;
+                };
+                int newJ = switch (dir) {
+                    case Direction.UP -> j - 1;
+                    case Direction.DOWN -> j + 1;
+                    case Direction.LEFT, Direction.RIGHT -> j;
+                };
+                newI = (newI + width) % width;
+                newJ = (newJ + height) % height;
+
+                if(map.types()[newI][newJ] != TileType.PATH) continue;
+
+
+                //Check if neighbor vertex exists already, add it if it is not
+                IPair newPair = new IPair(newI, newJ);
+                MazeVertex neighborV;
+                if(discovered.contains(newPair)){
+                    neighborV = vertices.get(newPair);
+                }
+                else{
+                    neighborV = new MazeVertex(newPair);
+                    vertices.put(newPair, neighborV);
+                }
+
+                //add edge in both directions if it does not already exist
+                if (currentV.edgeInDirection(dir) == null) {
+                    double currElev = map.elevations()[i][j];
+                    double newElev = map.elevations()[newI][newJ];
+
+                    double edgeW = edgeWeight(currElev, newElev);
+                    double edgeWRev = edgeWeight(newElev, currElev);
+                    MazeEdge newE = new MazeEdge(currentV, neighborV, dir, edgeW);
+                    MazeEdge newERev = new MazeEdge( neighborV, currentV, dir.reverse(), edgeWRev);
+
+                    currentV.addOutgoingEdge(newE);
+                    neighborV.addOutgoingEdge(newERev);
+                }
+
+                if(!discovered.contains(newPair)){
+                    discovered.add(newPair);
+                    frontier.add(newPair);
+                }
+            }
+        }
+
+
+
     }
 
     /**
