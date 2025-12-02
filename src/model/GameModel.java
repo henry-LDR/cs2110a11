@@ -337,11 +337,6 @@ public class GameModel {
             startFlee();
         }
         items.remove(v);
-        // TODO 2a: Update the model based on PacMann's arrival at vertex `v`. If there is an item
-        //  positioned on `v`, remove it (it was eaten by PacMann). If this was a DOT, increase the
-        //  score by 10 and notify "score" observers. If this was a PELLET, increase the score by
-        //  50, notify "score" observers, and initiate the FLEE sequence.  Pay careful attention to
-        //  the invariant on `items`.
     }
 
     /**
