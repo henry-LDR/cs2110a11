@@ -158,6 +158,14 @@ public class GameBoard extends JPanel {
         }
     }
 
+    public void paintDots (Graphics2D g2){
+        g2.setColor(Color.WHITE);
+
+        for
+
+
+
+    }
     /**
      * Draws Pac-Mann at his current location facing in his current direction on the game board.
      */
