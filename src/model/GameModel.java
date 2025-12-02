@@ -97,12 +97,6 @@ public class GameModel {
     //  for this field.
 
     /**
-     * Last Direction that the player has input
-     */
-
-    private Direction direction;
-
-    /**
      * Helper object for managing property change notifications.
      */
     protected SwingPropertyChangeSupport propSupport;
@@ -329,13 +323,26 @@ public class GameModel {
     /**
      * Update the model to reflect PacMann's arrival at a vertex.
      */
-
+    public void processPacMannArrival() {
+        MazeVertex v = pacMann().nearestVertex();
+        Item item = itemAt(v);
+        if(item == Item.NONE) {
+            return;
+        }
+        else if(item == Item.DOT){
+            addToScore(10);
+        }
+        else{ //item is a pellet
+            addToScore(50);
+            startFlee();
+        }
+        items.remove(v);
         // TODO 2a: Update the model based on PacMann's arrival at vertex `v`. If there is an item
         //  positioned on `v`, remove it (it was eaten by PacMann). If this was a DOT, increase the
         //  score by 10 and notify "score" observers. If this was a PELLET, increase the score by
         //  50, notify "score" observers, and initiate the FLEE sequence.  Pay careful attention to
         //  the invariant on `items`.
-
+    }
 
     /**
      * Transition to `newState` and notify observers.
