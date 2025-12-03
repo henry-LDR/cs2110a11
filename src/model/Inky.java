@@ -13,7 +13,10 @@ public class Inky extends Ghost {
     }
 
     /**
-     * Return the vertex that this ghost is targeting
+     * Return the vertex that this ghost is targeting. In the CHASE state, it returns a target
+     * vertex such that Pac-Mann's nearest vertex is the midpoint between Blinky's nearest vertex
+     * and the target vertex. In the FLEE state, it returns the vertex with coordinates
+     * (2, model.height()-3), ie. southwest corner.
      */
     @Override
     protected MazeVertex target() {
