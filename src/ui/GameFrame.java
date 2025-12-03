@@ -322,7 +322,6 @@ public class GameFrame extends JFrame implements KeyListener {
                 updatePlayState.accept(PlayState.RUNNING);
             }
         }
-
     }
 
     @Override
