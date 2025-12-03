@@ -132,8 +132,8 @@ public class GameModel {
         actors.add(new Blinky(this));
         // Uncomment the following line after completing
         actors.add(new Pinky(this));
-        // Uncomment the following line after completing TODO 4c
-        //actors.add(new Inky(this));
+        // Uncomment the following line after completing
+        actors.add(new Inky(this));
         // Uncomment the following line after completing TODO 4d
         //actors.add(new Clyde(this, randomness.generatorFor("Clyde")));
 
