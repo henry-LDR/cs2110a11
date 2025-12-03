@@ -1,5 +1,6 @@
 package ui;
 
+import graph.MazeGraph;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.HierarchyEvent;
@@ -287,6 +288,33 @@ public class GameFrame extends JFrame implements KeyListener {
         //  should have the same effect as pressing the start/pause button in the GUI. Also, when
         //  directional commands are entered when the game is PAUSED or between lives (in state
         //  LIFESTART), the game should begin RUNNING and the timer should start.
+
+        int code = e.getKeyCode();
+        MazeGraph.Direction dir = null;
+
+        if (code == KeyEvent.VK_SPACE) {
+            processStartPause();
+            return;
+        }
+
+        if (code == KeyEvent.VK_LEFT || code == KeyEvent.VK_A) {
+            dir = MazeGraph.Direction.LEFT;
+        } else if (code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_D) {
+            dir = MazeGraph.Direction.RIGHT;
+        } else if (code == KeyEvent.VK_UP || code == KeyEvent.VK_W) {
+            dir = MazeGraph.Direction.UP;
+        } else if (code == KeyEvent.VK_DOWN || code == KeyEvent.VK_S) {
+            dir = MazeGraph.Direction.DOWN;
+        }
+
+        if (dir != null) {
+            model.updatePlayerCommand(dir);
+
+            if (state == PlayState.PAUSED || state == PlayState.LIFESTART) {
+                updatePlayState.accept(PlayState.RUNNING);
+            }
+        }
+
     }
 
     @Override
