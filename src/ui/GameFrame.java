@@ -12,6 +12,7 @@ import java.util.function.Supplier;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
@@ -238,34 +239,41 @@ public class GameFrame extends JFrame implements KeyListener {
         model.addPropertyChangeListener("lives", updateScoreLabel);
         updateScoreLabel.propertyChange(null); // initialize score label
 
-            // TODO 5a: Add a property change listener to detect a change to the "game_state" property.
-            //  The method `e.getNewValue()` of its `PropertyEvent` parameter `e` returns an Object
-            //  with dynamic type `GameModel.GameState`. If the player is not actively `PLAYING`
-            //  the game, the timer should be stopped. If the game ended in a `VICTORY`, then call
-            //  `showWinMessage()`. If the game ended in a `DEFEAT`, call `showLoseMessage()`.
-            //  Otherwise, update the play state to begin the next life.
+        model.addPropertyChangeListener("game_state", e -> {
+            GameModel.GameState newState = (GameModel.GameState) e.getNewValue();
+
+            if (newState != GameModel.GameState.PLAYING) {
+                timer.stop();   // Stop game loop timer
+            }
+
+            switch (newState) {
+                case VICTORY -> showWinMessage();
+                case DEFEAT -> showLoseMessage();
+                default -> updatePlayState.accept(PlayState.LIFESTART); // Start next life
+            }
+        });
     }
 
     /**
      * Show a modal dialog indicating that the current game has been won.
      */
     private void showWinMessage() {
-        // TODO 5b: Create and show a `JOptionPane` that congratulates the user for winning the
-        //   game and reports their final score (the exact wording/presentation is up to you). Use
-        //   the `JOptionPane` documentation to determine an appropriate method to call to produce
-        //   this dialog box and understand its parameters. When the dialog is closed by the player,
-        //   a new game should be created and shown.
+        String message = "Congratulations! You win! \nFinal Score: " + model.score() + ".\nClick OK to start a new game.";
+
+        JOptionPane.showMessageDialog(this, message, "You win!", JOptionPane.PLAIN_MESSAGE);
+
+        newGame();
     }
 
     /**
      * Show a modal dialog indicating that the current game has been lost.
      */
     private void showLoseMessage() {
-        // TODO 5c: Create and show a `JOptionPane` that tells the user that their game is over and
-        //  reports their final score (the exact wording/presentation is up to you). Use the
-        //   `JOptionPane` documentation to determine an appropriate method to call to produce this
-        //   dialog box and understand its parameters. When the dialog is closed by the player, a
-        //   new game should be created and shown.
+        String message = "Womp womp... You lose! \nFinal Score: " + model.score() + ".\nClick OK to start a new game.";
+
+        JOptionPane.showMessageDialog(this, message, "You lose...", JOptionPane.PLAIN_MESSAGE);
+
+        newGame();
     }
 
     /* ****************************************************************
