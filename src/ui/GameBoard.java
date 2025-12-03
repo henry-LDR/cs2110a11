@@ -172,8 +172,7 @@ public class GameBoard extends JPanel {
             double diameter = (item == Item.DOT) ? 0.3 : 0.7;
 
             double r = diameter / 2.0;
-            Ellipse2D.Double circle =
-                    new Ellipse2D.Double(cx - r, cy - r, diameter, diameter);
+            Ellipse2D.Double circle = new Ellipse2D.Double(cx - r, cy - r, diameter, diameter);
 
             g2.fill(circle);
         }
