@@ -249,6 +249,7 @@ public class GameFrame extends JFrame implements KeyListener {
             switch (newState) {
                 case VICTORY -> showWinMessage();
                 case DEFEAT -> showLoseMessage();
+                case PLAYING -> {}
                 default -> updatePlayState.accept(PlayState.LIFESTART); // Start next life
             }
         });
@@ -317,7 +318,6 @@ public class GameFrame extends JFrame implements KeyListener {
 
         if (dir != null) {
             model.updatePlayerCommand(dir);
-
             if (state == PlayState.PAUSED || state == PlayState.LIFESTART) {
                 updatePlayState.accept(PlayState.RUNNING);
             }
