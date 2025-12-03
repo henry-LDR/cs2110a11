@@ -93,7 +93,7 @@ public class GameModel {
     private int numLives;
 
     /**
-     * The current direction that PacMann is traveling, as entered by the player.
+     * The Direction command entered by the player.
      */
     private Direction direction;
 
@@ -191,7 +191,7 @@ public class GameModel {
      **************************************************************** */
 
     /**
-     * Returns the direction that PacMann is currently traveling.
+     * Returns the direction command entered by the player.
      */
     public Direction playerCommand(){
         return direction;
@@ -309,7 +309,7 @@ public class GameModel {
      **************************************************************** */
 
     /**
-     * Sets "direction" to "d".
+     * Sets "direction" to "d" based on the player's command.
      */
     public void updatePlayerCommand(Direction d){
         direction = d;

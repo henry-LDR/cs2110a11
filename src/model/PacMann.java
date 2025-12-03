@@ -4,9 +4,6 @@ import java.util.List;
 import graph.MazeGraph.MazeEdge;
 import graph.MazeGraph.MazeVertex;
 
-// TODO 2c: Extend this class by defining a (non-abstract) subclass `PacMannManual` in a new file
-//  "model/PacMannManual.java".  This class determines Pac-Mann's next edge based on the most recent
-//  directional command entered by the player. See the assignment description for more details.
 
 // (Optional) TODO 7: Extend this class by defining a (non-abstract) subclass `PacMannAI`
 //  in a new file "model/PacMannAI.java".  This class determines Pac-Mann's next edge based on
