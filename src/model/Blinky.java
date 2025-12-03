@@ -8,7 +8,7 @@ public class Blinky extends Ghost {
     /**
      * Construct a Blinky associated with the given `model` that is red with initialDelay 2000 ms.
      */
-    public Blinky(GameModel model, Color ghostColor, int initialDelay) {
+    public Blinky(GameModel model) {
         super(model, Color.RED, 2000);
     }
 
