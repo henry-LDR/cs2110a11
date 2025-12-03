@@ -130,8 +130,8 @@ public class GameModel {
         //actors.add(withAI ? new PacMannAI(this) : new PacMannManual(this));
         // Uncomment the following line after completing
         actors.add(new Blinky(this));
-        // Uncomment the following line after completing TODO 4b
-        //actors.add(new Pinky(this));
+        // Uncomment the following line after completing
+        actors.add(new Pinky(this));
         // Uncomment the following line after completing TODO 4c
         //actors.add(new Inky(this));
         // Uncomment the following line after completing TODO 4d
