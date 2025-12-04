@@ -16,7 +16,7 @@ public class PacMannAI extends PacMann{
     /**
      * The distance threshold under which Pac-Mann will go from collecting items to escaping ghosts.
      */
-    private static final double ESCAPE_THRESHOLD = 3.0;
+    private static final double ESCAPE_THRESHOLD = 1;
 
     public PacMannAI(GameModel model) {
         super(model);
@@ -57,7 +57,7 @@ public class PacMannAI extends PacMann{
         }
 
         //Go towards nearest pellet if there are pellets remaining and multiple ghosts are chasing
-        if(!pellets.isEmpty() && countChasingGhosts() >= 2){
+        if(!pellets.isEmpty() && countChasingGhosts() >= 3 || dots.isEmpty()){
             return edgeToClosestVertex(pellets);
         }
         else{
@@ -187,17 +187,15 @@ public class PacMannAI extends PacMann{
     /**
      * Returns the Euclidean distance from a MazeVertex to ghost 'g'.
      */
-    private double distance(MazeVertex v, MazeVertex w){
+    private double distance(MazeVertex v, MazeVertex w) {
+        if (v == null || w == null) return Double.POSITIVE_INFINITY;
 
-        MazeEdge prevEdge = model.pacMann().location().edge();
-        if(prevEdge == null && !v.outgoingEdges().iterator().hasNext()){
-            prevEdge = v.outgoingEdges().iterator().next(); // arbitrary first edge
-        }
+        double dx = v.loc().i() - w.loc().i();
+        double dy = v.loc().j() - w.loc().j();
 
-        List<MazeEdge> path = Pathfinding.shortestNonBacktrackingPath(v, w, prevEdge);
-        return path == null ? Double.POSITIVE_INFINITY : path.size();
-
+        return Math.sqrt(dx * dx + dy * dy);
     }
+
     private List<MazeVertex> getVerticesWithItem(Item item) {
         List<MazeVertex> result = new ArrayList<>();
         for (MazeVertex v : model.graph().vertices()) {
@@ -229,7 +227,7 @@ public class PacMannAI extends PacMann{
      *
      */
     private MazeEdge bestFirstStep(MazeVertex start, MazeVertex target, MazeEdge prevEdge) {
-        List<MazeEdge> path = Pathfinding.shortestNonBacktrackingPath(start, target, prevEdge);
+        List<MazeEdge> path = Pathfinding.shortestNonBacktrackingPath(start, target, null);
 
         // If path is valid, use it
         if (path != null && !path.isEmpty()) {
