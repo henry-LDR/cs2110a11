@@ -189,7 +189,12 @@ public class PacMannAI extends PacMann{
      */
     private double distance(MazeVertex v, MazeVertex w){
 
-        List<MazeEdge> path = Pathfinding.shortestNonBacktrackingPath(v, w, model.pacMann().location.edge());
+        MazeEdge prevEdge = model.pacMann().location().edge();
+        if(prevEdge == null && !v.outgoingEdges().iterator().hasNext()){
+            prevEdge = v.outgoingEdges().iterator().next(); // arbitrary first edge
+        }
+
+        List<MazeEdge> path = Pathfinding.shortestNonBacktrackingPath(v, w, prevEdge);
         return path == null ? Double.POSITIVE_INFINITY : path.size();
 
     }
