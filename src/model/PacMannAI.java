@@ -188,7 +188,6 @@ public class PacMannAI extends PacMann{
      * Returns the Euclidean distance from a MazeVertex to ghost 'g'.
      */
     private double distance(MazeVertex v, MazeVertex w){
-
         MazeEdge prevEdge = model.pacMann().location().edge();
         if(prevEdge == null && !v.outgoingEdges().iterator().hasNext()){
             prevEdge = v.outgoingEdges().iterator().next(); // arbitrary first edge
