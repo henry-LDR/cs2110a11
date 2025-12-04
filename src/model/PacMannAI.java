@@ -56,8 +56,8 @@ public class PacMannAI extends PacMann{
             return chaseClosestGhostEdge();
         }
 
-        //Go towards nearest pellet if there are pellets remaining
-        if(!pellets.isEmpty()){
+        //Go towards nearest pellet if there are pellets remaining and multiple ghosts are chasing
+        if(!pellets.isEmpty() && countChasingGhosts() >= 2){
             return edgeToClosestVertex(pellets);
         }
         else{
@@ -87,6 +87,22 @@ public class PacMannAI extends PacMann{
      *                  METHODS FOR GHOST INTERACTION
      *      ------------------------------------------------
      */
+
+    /**
+     * Returns the number of ghosts that are actively chasing Pac-Mann.
+     */
+    private int countChasingGhosts() {
+        int count = 0;
+
+        for (Actor a : model.actors()) {
+            if (a instanceof Ghost g && g.state() == GhostState.CHASE) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 
     /**
      * Returns the edge Pac-Mann should take to approach the nearest fleeing ghost, minimizing distance to ghost.
