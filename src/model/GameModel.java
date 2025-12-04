@@ -125,9 +125,9 @@ public class GameModel {
 
         actors = new ArrayList<>();
         // Uncomment the following line after completing
-        actors.add(new PacMannManual(this));
+        //actors.add(new PacMannManual(this));
         // (Optional) Replace the above line with the following after completing TODO 5
-        //actors.add(withAI ? new PacMannAI(this) : new PacMannManual(this));
+        actors.add(withAI ? new PacMannAI(this) : new PacMannManual(this));
         // Uncomment the following line after completing
         actors.add(new Blinky(this));
         // Uncomment the following line after completing

@@ -14,8 +14,8 @@ public class GraphicalApp {
         // Default configuration parameters
         int width = 10;
         int height = 10;
-        boolean withAI = false;
-        boolean showPaths = false;
+        boolean withAI = true;
+        boolean showPaths = true;
         // Default to a different seed every time
         long seed = System.currentTimeMillis();
 
