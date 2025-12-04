@@ -16,7 +16,7 @@ public class PacMannAI extends PacMann{
     /**
      * The distance threshold under which Pac-Mann will go from collecting items to escaping ghosts.
      */
-    private static final double ESCAPE_THRESHOLD = 1.0;
+    private static final double ESCAPE_THRESHOLD = 3.0;
 
     public PacMannAI(GameModel model) {
         super(model);
@@ -172,12 +172,9 @@ public class PacMannAI extends PacMann{
      * Returns the Euclidean distance from a MazeVertex to ghost 'g'.
      */
     private double distance(MazeVertex v, MazeVertex w){
-        int gX = w.loc().i();
-        int gY = w.loc().j();
-        int pX = v.loc().i();
-        int pY = v.loc().j();
 
-        return Math.sqrt((gX-pX)*(gX-pX) + (gY-pY) * (gY-pY));
+        List<MazeEdge> path = Pathfinding.shortestNonBacktrackingPath(v, w, model.pacMann().location.edge());
+        return path == null ? Double.POSITIVE_INFINITY : path.size();
 
     }
     private List<MazeVertex> getVerticesWithItem(Item item) {
